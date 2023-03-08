@@ -6,4 +6,4 @@ metadata:
 spec:
    containers:
    - name: outrobot
-     image: gbt55/discord-bot-outro:v1
+     image: gbt55/discord-bot-outro:v1.1

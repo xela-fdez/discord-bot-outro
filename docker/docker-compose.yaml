@@ -1,7 +1,8 @@
 version: "3"
 services:
   outrobot:
-    image: outrobot
+    image: gbt55/discord-bot-outro:v1.1
     restart: always
     container_name: OutroBot
-
+    environment:
+      - API_KEY=<yourApiKey>

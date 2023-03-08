@@ -16,7 +16,18 @@ spec:
     spec:
       containers:
       - name: outrobot
-        image: gbt55/discord-bot-outro:v1 
+        image: gbt55/discord-bot-outro:v1.1
+        env:
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: discord-outrobot
+              key: api-key
+            # create this secret like this: kubectl create secret generic discord-outrobot --from-literal=api-key='<yourApiKey>'
+
+
+
+          #value: "yourApiKey"
         # readinessProbe:
         #   httpGet:
         #     path: /
