@@ -3,6 +3,8 @@ package discord.bot.outro;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,7 +28,11 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
+import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
+import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -53,12 +59,42 @@ public class OutroBot extends ListenerAdapter{
              .build();									 // Login with these options
     }
 
+    //Number of servers that is connected to, it posts when starting up the bot
+    @Override
+    public void onReady(ReadyEvent event) {	
+    	List <Guild> guilds = event.getJDA().getGuilds();
+    	Iterator <Guild> it = guilds.iterator();
+        int guildCount = guilds.size();
+        System.out.println("\nI'm running on " + guildCount + " servers!");
+        while(it.hasNext()) System.out.println(it.next());
+    }
+    
+    //Number of guilds that is connected to, it posts new and old servers when a new server appears
+    @Override
+    public void onGuildJoin(GuildJoinEvent event) {			
+    	List <Guild> guilds = event.getJDA().getGuilds();
+    	Iterator <Guild> it = guilds.iterator();
+        int guildCount = guilds.size();
+        System.out.println("\nI'm running on " + guildCount + " servers!");
+        while(it.hasNext()) System.out.println(it.next());
+    }
+    
+    //Number of guilds that is connected to, it posts remaining servers when bot is removed from a server
+    @Override
+    public void onGuildLeave(GuildLeaveEvent event) {	
+    	List <Guild> guilds = event.getJDA().getGuilds();
+    	Iterator <Guild> it = guilds.iterator();
+        int guildCount = guilds.size();
+        System.out.println("\nI'm running on " + guildCount + " servers!");
+        while(it.hasNext()) System.out.println(it.next());
+    }    
+    
     @Override
     public void onMessageReceived(MessageReceivedEvent event)
     {
         Message message = event.getMessage();
         User author = message.getAuthor();
-        System.out.println(author.getName()+", "+message.getMember());
+        System.out.println(author.getName()+", "+message.getMember());       
         String content = message.getContentRaw();
         // Ignore message if bot
         if (author.isBot())
