@@ -30,7 +30,6 @@ import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
-import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -42,7 +41,7 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 public class OutroBot extends ListenerAdapter{
     public static void main(String[] args){    	
         
-        String token = "YOUR API KEY";
+        String token = args[0];				//Replace args[0] for your API key
 
         EnumSet<GatewayIntent> intents = EnumSet.of(
             GatewayIntent.GUILD_MESSAGES,
@@ -53,7 +52,7 @@ public class OutroBot extends ListenerAdapter{
         // Start the JDA session with default mode (voice member cache)
         JDABuilder.createDefault(token, intents)         // Use provided token from command line arguments
              .addEventListeners(new OutroBot())  // Start listening with this listener
-             .setActivity(Activity.listening("outros epicardas")) // Inform users that we are jammin' it out
+             .setActivity(Activity.listening("epic outros")) // Inform users that we are jammin' it out
              .setStatus(OnlineStatus.DO_NOT_DISTURB)     // Please don't disturb us while we're jammin'
              .enableCache(CacheFlag.VOICE_STATE)         // Enable the VOICE_STATE cache to find a user's connected voice channel
              .build();									 // Login with these options
