@@ -3,6 +3,8 @@ package discord.bot.outro;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,32 +28,67 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
+import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
+public class OutroBot extends ListenerAdapter {
+	public static void main(String[] args) {
 
-public class OutroBot extends ListenerAdapter{
-    public static void main(String[] args){    	
-        
-        String token = "YOUR API KEY";
+		String token = args[0]; // Replace args[0] for your API key
 
-        EnumSet<GatewayIntent> intents = EnumSet.of(
-            GatewayIntent.GUILD_MESSAGES,
-            GatewayIntent.GUILD_VOICE_STATES,
-            GatewayIntent.MESSAGE_CONTENT
-        );
+		EnumSet<GatewayIntent> intents = EnumSet.of(GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_VOICE_STATES,
+				GatewayIntent.MESSAGE_CONTENT);
 
-        // Start the JDA session with default mode (voice member cache)
-        JDABuilder.createDefault(token, intents)         // Use provided token from command line arguments
-             .addEventListeners(new OutroBot())  // Start listening with this listener
-             .setActivity(Activity.listening("outros epicardas")) // Inform users that we are jammin' it out
-             .setStatus(OnlineStatus.DO_NOT_DISTURB)     // Please don't disturb us while we're jammin'
-             .enableCache(CacheFlag.VOICE_STATE)         // Enable the VOICE_STATE cache to find a user's connected voice channel
-             .build();									 // Login with these options
-    }
+		// Start the JDA session with default mode (voice member cache)
+		JDABuilder.createDefault(token, intents) // Use provided token from command line arguments
+				.addEventListeners(new OutroBot()) // Start listening with this listener
+				.setActivity(Activity.listening("outros epicardas")) // Inform users that we are jammin' it out
+				.setStatus(OnlineStatus.DO_NOT_DISTURB) // Please don't disturb us while we're jammin'
+				.enableCache(CacheFlag.VOICE_STATE) // Enable the VOICE_STATE cache to find a user's connected voice
+													// channel
+				.build(); // Login with these options
+	}
+
+	// Number of servers that is connected to, it posts when starting up the bot
+	@Override
+	public void onReady(ReadyEvent event) {
+		List<Guild> guilds = event.getJDA().getGuilds();
+		Iterator<Guild> it = guilds.iterator();
+		int guildCount = guilds.size();
+		System.out.println("\nI'm running on " + guildCount + " servers!");
+		while (it.hasNext())
+			System.out.println(it.next());
+	}
+
+	// Number of guilds that is connected to, it posts new and old servers when a
+	// new server appears
+	@Override
+	public void onGuildJoin(GuildJoinEvent event) {
+		List<Guild> guilds = event.getJDA().getGuilds();
+		Iterator<Guild> it = guilds.iterator();
+		int guildCount = guilds.size();
+		System.out.println("\nI'm running on " + guildCount + " servers!");
+		while (it.hasNext())
+			System.out.println(it.next());
+	}
+
+	// Number of guilds that is connected to, it posts remaining servers when bot is
+	// removed from a server
+	@Override
+	public void onGuildLeave(GuildLeaveEvent event) {
+		List<Guild> guilds = event.getJDA().getGuilds();
+		Iterator<Guild> it = guilds.iterator();
+		int guildCount = guilds.size();
+		System.out.println("\nI'm running on " + guildCount + " servers!");
+		while (it.hasNext())
+			System.out.println(it.next());
+	}
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event)
