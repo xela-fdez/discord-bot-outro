@@ -1,0 +1,31 @@
+# file: discord-bot-outro/kubernetes/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: outrobot-deployment
+  namespace: discord-bots
+spec:
+  selector:
+    matchLabels:
+      app: outrobot
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: outrobot
+    spec:
+      containers:
+      - name: outrobot
+        image: gbt55/discord-bot-outro:v1 
+        # readinessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 80
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 10
+        # livenessProbe:
+        #   tcpSocket:
+        #     port: 80
+        #   initialDelaySeconds: 15
+        #   periodSeconds: 20
+

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+   name: outrobot
+   namespace: discord-bots
+spec:
+   containers:
+   - name: outrobot
+     image: gbt55/discord-bot-outro:v1

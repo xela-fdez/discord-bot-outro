@@ -1,0 +1,7 @@
+version: "3"
+services:
+  outrobot:
+    image: outrobot
+    restart: always
+    container_name: OutroBot
+
