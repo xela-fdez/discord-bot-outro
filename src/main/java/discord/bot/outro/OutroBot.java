@@ -139,7 +139,7 @@ public class OutroBot extends ListenerAdapter {
         	song = new SongInfo("jOTeBVtlnXU",33000,18500,26000);
         }
         else if(arg.equals("2")) {
-        	song = new SongInfo("qv5wfdxYbc8",0,16000,23000);
+        	song = new SongInfo("qv5wfdxYbc8",0,16500,23000);
         }
         else {
         	song = new SongInfo("3_-a9nVZYjk",45000,16000,24000);
