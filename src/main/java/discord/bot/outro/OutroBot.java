@@ -38,10 +38,13 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 public class OutroBot extends ListenerAdapter {
+	private static long startTime;
+	
+	
 	public static void main(String[] args) {
 
 		String token = args[0]; // Replace args[0] for your API key
-
+		
 		EnumSet<GatewayIntent> intents = EnumSet.of(GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_VOICE_STATES,
 				GatewayIntent.MESSAGE_CONTENT);
 
@@ -58,6 +61,7 @@ public class OutroBot extends ListenerAdapter {
 	// Number of servers that is connected to, it posts when starting up the bot
 	@Override
 	public void onReady(ReadyEvent event) {
+		startTime=System.currentTimeMillis();
 		List<Guild> guilds = event.getJDA().getGuilds();
 		Iterator<Guild> it = guilds.iterator();
 		int guildCount = guilds.size();
@@ -127,15 +131,50 @@ public class OutroBot extends ListenerAdapter {
      * @param arg
      *        The input argument
      */
-    private void onCommand(MessageReceivedEvent event, String arg, Member user)
+	private void onCommand(MessageReceivedEvent event, String arg, Member user)
     {
         // Note: None of these can be null due to our configuration with the JDABuilder!
         Member member = event.getMember();                              // Member is the context of the user for the specific guild, containing voice state and roles
         GuildVoiceState voiceState = member.getVoiceState();            // Check the current voice state of the user
         AudioChannel channel = voiceState.getChannel();    				// Use the channel the user is currently connected to
-        SongInfo song;
-        
-        if(arg.equals("1")) {
+        SongInfo song = null;
+        String uptime = "I've been up for ";
+        long uptimeTime = (System.currentTimeMillis()-startTime);
+
+        if(arg.equals("uptime")) {
+    		int year = 0;
+    		int month = 0;
+    		int day = 0;
+    		int hour = 0;
+    		int minutes = 0;
+    		int seconds = 0;
+    		
+    		if(uptimeTime>31556952000L) {
+    			year = (int) (uptimeTime/31556952000L);
+        		uptimeTime = uptimeTime-(year*31556952000L);
+    		}
+    		if(uptimeTime>2629746000L) {
+    			month = (int) (uptimeTime/2629746000L);
+        		uptimeTime = uptimeTime-(month*2629746000L);
+    		}
+    		if(uptimeTime>86400000L) {
+    			day = (int) (uptimeTime/86400000L);
+        		uptimeTime = uptimeTime-(day*86400000L);
+    		}
+    		if(uptimeTime>3600000L) {
+    			hour = (int) (uptimeTime/3600000L);
+        		uptimeTime = uptimeTime-(hour*3600000L);
+    		}
+    		if(uptimeTime>60000L) {
+    			minutes = (int) (uptimeTime/60000L);
+        		uptimeTime = uptimeTime-(minutes*60000L);
+    		}
+    		seconds = (int) (uptimeTime/1000L);
+    		
+    		System.out.println(year+" years, "+month+" months, "+day+" days, "+hour+" hours, "+minutes+" minutes and "+seconds+" seconds");
+    		uptime+=(year+" years, "+month+" months, "+day+" days, "+hour+" hours, "+minutes+" minutes and "+seconds+" seconds");
+        }
+        else if(arg.equals("1")) {
         	song = new SongInfo("jOTeBVtlnXU",33000,18500,26000);
         }
         else if(arg.equals("2")) {
@@ -145,14 +184,19 @@ public class OutroBot extends ListenerAdapter {
         	song = new SongInfo("3_-a9nVZYjk",45000,16000,24000);
         }
         
-        if (channel != null)
-        {
-            connectTo(channel, user, song);                       // Join the channel of the user
-            onConnecting(channel, event.getChannel());                  // Tell the user about our success
-        }
-        else
-        {
-            onUnknownChannel(event.getChannel(), "your voice channel"); // Tell the user about our failure
+        if(song!=null) {
+	        if (channel != null)
+	        {
+	            connectTo(channel, user, song);                       // Join the channel of the user
+	            onConnecting(channel, event.getChannel());                  // Tell the user about our success
+	        }
+	        else
+	        {
+	            onUnknownChannel(event.getChannel(), "your voice channel"); // Tell the user about our failure
+	        }
+        }   
+        else {
+        	event.getChannel().sendMessage(uptime).queue();
         }
     }
 
