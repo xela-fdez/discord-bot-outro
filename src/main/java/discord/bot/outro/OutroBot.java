@@ -150,50 +150,31 @@ public class OutroBot extends ListenerAdapter {
     		int seconds = 0;
     		
     		if(uptimeTime>31556952000L) {
-	    		if(uptimeTime>31556952000L) {
-	    			year = (int) (uptimeTime/31556952000L);
-	        		uptimeTime = uptimeTime-(year*31556952000L);
-	    		}
-	    		if(uptimeTime>2629746000L) {
-	    			month = (int) (uptimeTime/2629746000L);
-	        		uptimeTime = uptimeTime-(month*2629746000L);
-	    		}
-	    		if(uptimeTime>86400000L) {
-	    			day = (int) (uptimeTime/86400000L);
-	        		uptimeTime = uptimeTime-(day*86400000L);
-	    		}
-	    		if(uptimeTime>3600000L) {
-	    			hour = (int) (uptimeTime/3600000L);
-	        		uptimeTime = uptimeTime-(hour*3600000L);
-	    		}
-	    		if(uptimeTime>60000L) {
-	    			minutes = (int) (uptimeTime/60000L);
-	        		uptimeTime = uptimeTime-(minutes*60000L);
-	    		}
-	    		seconds = (int) (uptimeTime/1000L);
+    			year = (int) (uptimeTime/31556952000L);
+        		uptimeTime = uptimeTime-(year*31556952000L);
     		}
-    		else {
-	    		if(uptimeTime>2629746000L) {
-	    			month = (int) (uptimeTime/2629746000L);
-	        		uptimeTime = uptimeTime-(month*2629746000L);
-	    		}
-	    		if(uptimeTime>86400000L) {
-	    			day = (int) (uptimeTime/86400000L);
-	        		uptimeTime = uptimeTime-(day*86400000L);
-	    		}
-	    		if(uptimeTime>3600000L) {
-	    			hour = (int) (uptimeTime/3600000L);
-	        		uptimeTime = uptimeTime-(hour*3600000L);
-	    		}
-	    		if(uptimeTime>60000L) {
-	    			minutes = (int) (uptimeTime/60000L);
-	        		uptimeTime = uptimeTime-(minutes*60000L);
-	    		}
-	    		seconds = (int) (uptimeTime/1000L);
+    		if(uptimeTime>2629746000L) {
+    			month = (int) (uptimeTime/2629746000L);
+        		uptimeTime = uptimeTime-(month*2629746000L);
     		}
+    		if(uptimeTime>86400000L) {
+    			day = (int) (uptimeTime/86400000L);
+        		uptimeTime = uptimeTime-(day*86400000L);
+    		}
+    		if(uptimeTime>3600000L) {
+    			hour = (int) (uptimeTime/3600000L);
+        		uptimeTime = uptimeTime-(hour*3600000L);
+    		}
+    		if(uptimeTime>60000L) {
+    			minutes = (int) (uptimeTime/60000L);
+        		uptimeTime = uptimeTime-(minutes*60000L);
+    		}
+    		seconds = (int) (uptimeTime/1000L);
+		
+    		if(year>=1) uptime+=(year+" years, "+month+" months, "+day+" days, "+hour+" hours, "+minutes+" minutes and "+seconds+" seconds");
+    		else uptime+=(month+" months, "+day+" days, "+hour+" hours, "+minutes+" minutes and "+seconds+" seconds");
     		
     		System.out.println(year+" years, "+month+" months, "+day+" days, "+hour+" hours, "+minutes+" minutes and "+seconds+" seconds");
-    		uptime+=(year+" years, "+month+" months, "+day+" days, "+hour+" hours, "+minutes+" minutes and "+seconds+" seconds");
         }
         else if(arg.equals("1")) {
         	song = new SongInfo("jOTeBVtlnXU",33000,18500,26000);
